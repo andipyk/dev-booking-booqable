@@ -1,0 +1,309 @@
+/* Cart widget — minimal, theme-agnostic defaults. A theme is free to
+   override any of these classes; nothing here depends on theme.json tokens
+   since the plugin must keep working if the theme is ever switched. */
+
+/* Floating action button — deliberately not in the theme's header markup,
+   so the cart keeps working no matter what header a theme ships (see
+   class-cart-widget.php). Fixed bottom-right, above everything else. */
+#bq-cart-toggle {
+	position: fixed;
+	right: 1.5rem;
+	bottom: 1.5rem;
+	z-index: 9998;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.35rem;
+	width: 3.25rem;
+	height: 3.25rem;
+	border: none;
+	border-radius: 999px;
+	background: #161513;
+	color: #fff;
+	cursor: pointer;
+	box-shadow: 0 8px 24px rgba(22, 21, 19, 0.28);
+}
+
+#bq-cart-toggle:hover {
+	background: #2a2724;
+}
+
+#bq-cart-count {
+	position: absolute;
+	top: -0.3rem;
+	right: -0.3rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 1.25em;
+	height: 1.25em;
+	padding: 0 0.35em;
+	border-radius: 999px;
+	background: #c08552;
+	color: #fff;
+	font-size: 0.7rem;
+	line-height: 1;
+}
+
+#bq-cart-drawer {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100vh;
+	width: min(380px, 100vw);
+	background: #fbfaf7;
+	box-shadow: -8px 0 32px rgba(22, 21, 19, 0.15);
+	transform: translateX(100%);
+	transition: transform 0.3s ease;
+	z-index: 9999;
+	display: flex;
+	flex-direction: column;
+	padding: 1.5rem;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+
+#bq-cart-drawer.is-open {
+	transform: translateX(0);
+}
+
+/* The admin toolbar is `position: fixed; top: 0` with a higher z-index than
+   almost anything else on the page — without this, it visually covers the
+   drawer's own head (title + close button) for logged-in users. `admin-bar`
+   is a standard body class WordPress adds whenever the toolbar is showing
+   (guests never have it, so this never applies to a real visitor). Heights
+   match WP core's own admin-bar breakpoints. */
+body.admin-bar #bq-cart-drawer {
+	top: 32px;
+	height: calc(100vh - 32px);
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar #bq-cart-drawer {
+		top: 46px;
+		height: calc(100vh - 46px);
+	}
+}
+
+#bq-cart-drawer .bq-cart-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+#bq-cart-close {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+	line-height: 1;
+}
+
+#bq-cart-body {
+	flex: 1;
+	overflow-y: auto;
+}
+
+#bq-cart-drawer.is-busy #bq-cart-body,
+#bq-cart-drawer.is-busy #bq-checkout-panel {
+	opacity: 0.5;
+	pointer-events: none;
+	transition: opacity 0.15s ease;
+}
+
+.bq-cart-empty {
+	color: rgba(22, 21, 19, 0.55);
+}
+
+.bq-cart-dates {
+	display: flex;
+	gap: 0.75rem;
+	margin-bottom: 0.75rem;
+}
+
+.bq-cart-dates label {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	font-size: 0.75rem;
+	color: rgba(22, 21, 19, 0.6);
+}
+
+.bq-cart-dates input[type="date"] {
+	padding: 0.4rem 0.5rem;
+	border: 1px solid rgba(22, 21, 19, 0.15);
+	border-radius: 0.5rem;
+	font: inherit;
+	font-size: 0.85rem;
+}
+
+.bq-cart-line {
+	display: grid;
+	grid-template-columns: 1fr auto auto auto;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid rgba(22, 21, 19, 0.08);
+}
+
+.bq-cart-line-qty {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.bq-cart-line-qty button {
+	width: 1.5rem;
+	height: 1.5rem;
+	border: 1px solid rgba(22, 21, 19, 0.15);
+	background: #fff;
+	border-radius: 999px;
+	cursor: pointer;
+}
+
+.bq-cart-line-remove {
+	background: none;
+	border: none;
+	color: rgba(22, 21, 19, 0.4);
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+#bq-cart-foot {
+	border-top: 1px solid rgba(22, 21, 19, 0.1);
+	padding-top: 1rem;
+	margin-top: 1rem;
+}
+
+#bq-cart-foot .bq-cart-total-row {
+	display: flex;
+	justify-content: space-between;
+	font-weight: 600;
+	margin-bottom: 0.35rem;
+}
+
+/* The cart's own total is a client-side estimate (price x qty, no duration
+   math, no tax/discount rules) — the pre-checkout cart no longer has a real
+   Booqable order to ask for an authoritative number. Booqable's real total
+   only exists once, right after Checkout — see class-checkout.php. */
+.bq-cart-estimate-note {
+	margin: 0 0 0.75rem;
+	font-size: 0.7rem;
+	color: rgba(22, 21, 19, 0.5);
+}
+
+#bq-cart-checkout {
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding: 0.75rem;
+	border: none;
+	border-radius: 999px;
+	background: #161513;
+	color: #fff;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+#bq-checkout-panel:not([hidden]),
+#bq-checkout-confirmation:not([hidden]) {
+	display: flex;
+	flex-direction: column;
+	gap: 0.85rem;
+}
+
+.bq-checkout-intro {
+	color: rgba(22, 21, 19, 0.6);
+	font-size: 0.85rem;
+	margin: 0;
+}
+
+.bq-checkout-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	font-size: 0.8rem;
+	color: rgba(22, 21, 19, 0.7);
+}
+
+.bq-checkout-field input {
+	padding: 0.55rem 0.65rem;
+	border: 1px solid rgba(22, 21, 19, 0.15);
+	border-radius: 0.5rem;
+	font: inherit;
+	font-size: 0.9rem;
+}
+
+.bq-checkout-primary,
+.bq-checkout-secondary {
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding: 0.75rem;
+	border-radius: 999px;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.bq-checkout-primary {
+	border: none;
+	background: #161513;
+	color: #fff;
+}
+
+.bq-checkout-secondary {
+	border: 1px solid rgba(22, 21, 19, 0.15);
+	background: transparent;
+	color: rgba(22, 21, 19, 0.7);
+}
+
+.bq-checkout-success {
+	font-weight: 600;
+	font-size: 1.05rem;
+	margin: 0;
+}
+
+.bq-checkout-total {
+	margin: 0;
+	color: rgba(22, 21, 19, 0.7);
+}
+
+#bq-checkout-instructions {
+	background: #fff;
+	border: 1px solid rgba(22, 21, 19, 0.1);
+	border-radius: 0.6rem;
+	padding: 0.85rem;
+	font-size: 0.85rem;
+	overflow-y: auto;
+}
+
+#bq-checkout-instructions img {
+	max-width: 100%;
+	height: auto;
+}
+
+#bq-cart-shortage,
+#bq-checkout-shortage {
+	background: #fdecec;
+	color: #a3372f;
+	padding: 0.6rem 0.8rem;
+	border-radius: 0.6rem;
+	font-size: 0.85rem;
+	margin: 0 0 0.75rem;
+}
+
+#bq-cart-error {
+	position: fixed;
+	bottom: 1.5rem;
+	left: 1.5rem;
+	background: #a3372f;
+	color: #fff;
+	padding: 0.75rem 1rem;
+	border-radius: 0.6rem;
+	z-index: 10000;
+	max-width: 320px;
+}

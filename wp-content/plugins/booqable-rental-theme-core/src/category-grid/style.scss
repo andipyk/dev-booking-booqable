@@ -1,0 +1,57 @@
+/*
+ * Baseline styling so this block looks reasonable on ANY theme, standalone
+ * of the Booqable Rental Theme. When that theme *is* active, its own
+ * `.sc-bento` rules (same class names, deliberately) take over and make it
+ * pixel-consistent with the rest of the site — this is just the fallback.
+ */
+.wp-block-booqable-core-category-grid.sc-bento {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-auto-rows: 220px;
+	grid-auto-flow: dense;
+	gap: 1rem;
+
+	.sc-bento-card {
+		position: relative;
+		grid-column: span 2;
+		grid-row: span 1;
+		border-radius: 1.25rem;
+		background-color: #e9e2d4;
+		background-size: cover;
+		background-position: center;
+		overflow: hidden;
+		display: flex;
+		align-items: flex-end;
+		padding: 1.5rem;
+		color: #fbfaf7;
+		text-decoration: none;
+		isolation: isolate;
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(180deg, rgba(22, 21, 19, 0) 40%, rgba(22, 21, 19, 0.75) 100%);
+			z-index: -1;
+		}
+	}
+
+	.sc-bento-feature {
+		grid-column: span 4;
+		grid-row: span 2;
+	}
+
+	.sc-bento-tag {
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	@media (max-width: 780px) {
+		grid-template-columns: repeat(2, 1fr);
+
+		.sc-bento-feature {
+			grid-column: span 2;
+			grid-row: span 1;
+		}
+	}
+}

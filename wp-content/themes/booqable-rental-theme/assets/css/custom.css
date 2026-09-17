@@ -1,0 +1,605 @@
+/* ==========================================================================
+   Staging Co. — design system on top of Twenty Twenty-Five / theme.json
+   Prevents horizontal scroll from off-screen scroll/GSAP animation.
+   ========================================================================== */
+html, body {
+	overflow-x: hidden;
+	max-width: 100%;
+}
+
+:root {
+	--sc-ink: var(--wp--preset--color--ink, #161513);
+	--sc-ivory: var(--wp--preset--color--ivory, #F5F1EA);
+	--sc-cream: var(--wp--preset--color--cream, #FBFAF7);
+	--sc-sand: var(--wp--preset--color--sand, #E9E2D4);
+	--sc-terracotta: var(--wp--preset--color--terracotta, #C08552);
+	--sc-sage: var(--wp--preset--color--sage, #7C8A6F);
+}
+
+/* --------------------------------------------------------------------------
+   Nav — floating glass pill
+   -------------------------------------------------------------------------- */
+.sc-nav-shell {
+	padding: 1.25rem 1.5rem 0;
+	background: transparent;
+	z-index: 100;
+}
+
+.sc-nav-pill {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0.6rem 0.6rem 0.6rem 1.5rem;
+	border-radius: 999px;
+	background: rgba(251, 250, 247, 0.7);
+	backdrop-filter: blur(16px) saturate(160%);
+	-webkit-backdrop-filter: blur(16px) saturate(160%);
+	border: 1px solid rgba(22, 21, 19, 0.08);
+	box-shadow: 0 8px 30px rgba(22, 21, 19, 0.08);
+	gap: 1.5rem;
+}
+
+.sc-nav-cta a {
+	border-radius: 999px !important;
+	background: var(--sc-ink) !important;
+	color: var(--sc-cream) !important;
+	padding: 0.6rem 1.4rem !important;
+}
+
+/* --------------------------------------------------------------------------
+   Section rhythm — cinematic chapters
+   -------------------------------------------------------------------------- */
+.sc-section {
+	padding: clamp(4rem, 8vw, 8rem) 1.5rem;
+}
+
+/*
+ * .sc-container is deliberately a plain, unaligned nested element (never
+ * carries `alignfull`/`alignwide` itself). WP's constrained-layout CSS only
+ * targets DIRECT children of `.is-layout-constrained` for its align rules
+ * (incl. the alignfull negative-margin "bleed" trick) — nesting our own
+ * centering one level deeper sidesteps that entirely instead of fighting it.
+ */
+.sc-container {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.sc-section-head {
+	max-width: 640px;
+	margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.sc-section-head h2 {
+	font-size: clamp(2rem, 4vw, 3rem);
+	margin: 0 0 0.75rem;
+}
+
+.sc-section-head p {
+	font-size: 1.125rem;
+	color: rgba(22, 21, 19, 0.7);
+}
+
+/* --------------------------------------------------------------------------
+   Hero — Cinematic Center
+   -------------------------------------------------------------------------- */
+.sc-hero {
+	position: relative;
+	min-height: 92vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	color: var(--sc-cream);
+}
+
+.sc-hero-media {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	filter: grayscale(35%) contrast(112%) brightness(0.75);
+	transform: scale(1.05);
+}
+
+.sc-hero-wash {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(120% 90% at 50% 30%, rgba(22, 21, 19, 0.35) 0%, rgba(22, 21, 19, 0.75) 65%, rgba(22, 21, 19, 0.92) 100%);
+}
+
+.sc-hero-content {
+	position: relative;
+	max-width: 62rem;
+	padding: 0 1.5rem;
+	text-align: center;
+}
+
+.sc-hero-title {
+	font-size: clamp(2.75rem, 5vw, 5.5rem);
+	line-height: 1.05;
+	margin: 0 0 1.5rem;
+	font-weight: 650;
+}
+
+.sc-hero-inline-img {
+	display: inline-block;
+	width: 0.9em;
+	height: 0.9em;
+	border-radius: 999px;
+	background-size: cover;
+	background-position: center;
+	vertical-align: middle;
+	margin: 0 0.15em;
+	transform: translateY(-0.08em);
+}
+
+.sc-hero-sub {
+	font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+	color: rgba(251, 250, 247, 0.85);
+	max-width: 42rem;
+	margin: 0 auto 2.5rem;
+}
+
+.sc-hero-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.sc-btn {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.9rem 1.75rem;
+	border-radius: 999px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: transform 0.4s ease, background 0.4s ease;
+}
+
+.sc-btn-primary {
+	background: var(--sc-cream);
+	color: var(--sc-ink) !important;
+}
+
+.sc-btn-primary:hover {
+	transform: translateY(-2px);
+}
+
+.sc-btn-ghost {
+	border: 1px solid rgba(251, 250, 247, 0.5);
+	color: var(--sc-cream) !important;
+}
+
+.sc-btn-outline-light {
+	border: 1px solid rgba(251, 250, 247, 0.5);
+	color: var(--sc-cream) !important;
+}
+
+.sc-btn-ghost:hover,
+.sc-btn-outline-light:hover {
+	background: rgba(251, 250, 247, 0.12);
+}
+
+.sc-btn-outline-dark {
+	border: 1px solid rgba(22, 21, 19, 0.25);
+	color: var(--sc-ink) !important;
+}
+
+.sc-btn-outline-dark:hover {
+	background: var(--sc-ink);
+	color: var(--sc-cream) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Inventory page — "how it works" steps
+   -------------------------------------------------------------------------- */
+.sc-steps {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2.5rem;
+}
+
+.sc-step-num {
+	display: block;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--sc-terracotta);
+	letter-spacing: 0.08em;
+	margin-bottom: 0.75rem;
+}
+
+.sc-step h3 {
+	margin: 0 0 0.5rem;
+	font-size: 1.3rem;
+}
+
+.sc-step p {
+	margin: 0;
+	color: rgba(22, 21, 19, 0.68);
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+@media (max-width: 780px) {
+	.sc-steps {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+}
+
+.sc-inventory-help {
+	text-align: center;
+	max-width: 34rem;
+	margin: 0 auto;
+	padding: clamp(2.5rem, 5vw, 3.5rem) 1rem;
+	border-top: 1px solid rgba(22, 21, 19, 0.1);
+}
+
+.sc-inventory-help h3 {
+	margin: 0 0 0.5rem;
+	font-size: 1.5rem;
+}
+
+.sc-inventory-help p {
+	margin: 0 0 1.5rem;
+	color: rgba(22, 21, 19, 0.68);
+}
+
+/* --------------------------------------------------------------------------
+   Bento — gapless 6-column grid (grid-auto-flow: dense)
+   -------------------------------------------------------------------------- */
+.sc-bento {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-auto-rows: 220px;
+	grid-auto-flow: dense;
+	gap: 1rem;
+}
+
+.sc-bento-card {
+	position: relative;
+	grid-column: span 2;
+	grid-row: span 1;
+	border-radius: 1.25rem;
+	background-color: var(--sc-sand);
+	background-size: cover;
+	background-position: center;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-end;
+	padding: 1.5rem;
+	color: var(--sc-cream);
+	text-decoration: none;
+	isolation: isolate;
+}
+
+.sc-bento-card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(22, 21, 19, 0) 40%, rgba(22, 21, 19, 0.75) 100%);
+	z-index: -1;
+	transition: opacity 0.4s ease;
+}
+
+.sc-bento-card:hover::after {
+	opacity: 0.85;
+}
+
+.sc-bento-feature {
+	grid-column: span 4;
+	grid-row: span 2;
+}
+
+.sc-bento-cta-card {
+	background-color: var(--sc-ink);
+	background-image: none !important;
+	color: var(--sc-cream);
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.sc-bento-tag {
+	font-size: 1.15rem;
+	font-weight: 600;
+}
+
+.sc-bento-cta {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 0.95rem;
+	opacity: 0.85;
+}
+
+@media (max-width: 780px) {
+	.sc-bento {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.sc-bento-feature {
+		grid-column: span 2;
+		grid-row: span 1;
+	}
+}
+
+/* --------------------------------------------------------------------------
+   Pinned before/after gallery (Desire — GSAP)
+   -------------------------------------------------------------------------- */
+.sc-pin-section {
+	padding: clamp(4rem, 8vw, 8rem) 1.5rem;
+}
+
+.sc-pin-inner {
+	display: grid;
+	grid-template-columns: 0.8fr 1.2fr;
+	gap: 3rem;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.sc-pin-col {
+	align-self: start;
+	position: sticky;
+	top: 8rem;
+}
+
+.sc-pin-title {
+	font-size: clamp(2rem, 4vw, 3.25rem);
+	margin: 0 0 1rem;
+}
+
+.sc-pin-sub {
+	max-width: 26rem;
+	color: rgba(22, 21, 19, 0.7);
+	font-size: 1.05rem;
+}
+
+.sc-pin-scroll {
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+}
+
+.sc-pin-item {
+	margin: 0;
+	opacity: 0.25;
+	transform: scale(0.85);
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sc-pin-item img {
+	width: 100%;
+	border-radius: 1.25rem;
+	display: block;
+	filter: contrast(108%);
+}
+
+.sc-pin-item figcaption {
+	margin-top: 0.75rem;
+	font-size: 0.95rem;
+	color: rgba(22, 21, 19, 0.6);
+}
+
+@media (max-width: 900px) {
+	.sc-pin-inner {
+		grid-template-columns: 1fr;
+	}
+	.sc-pin-col {
+		position: static;
+	}
+}
+
+/* --------------------------------------------------------------------------
+   Testimonials carousel
+   -------------------------------------------------------------------------- */
+.sc-testimonials-card {
+	background: var(--sc-sand);
+	border-radius: 2rem;
+	padding: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.sc-carousel {
+	position: relative;
+}
+
+.sc-carousel-track {
+	position: relative;
+	min-height: 220px;
+}
+
+.sc-quote {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	opacity: 0;
+	transform: translateY(12px);
+	pointer-events: none;
+	transition: opacity 0.5s ease, transform 0.5s ease;
+	max-width: 42rem;
+}
+
+.sc-quote.is-active {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.sc-quote-portrait {
+	width: 56px;
+	height: 56px;
+	border-radius: 999px;
+	object-fit: cover;
+	margin-bottom: 1rem;
+}
+
+.sc-quote p {
+	font-size: 1.3rem;
+	line-height: 1.4;
+	margin: 0 0 1rem;
+}
+
+.sc-quote cite {
+	font-style: normal;
+	font-weight: 600;
+	color: rgba(22, 21, 19, 0.65);
+}
+
+.sc-carousel-controls {
+	display: flex;
+	gap: 0.75rem;
+	margin-top: 1.5rem;
+}
+
+.sc-carousel-controls button {
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	border: 1px solid rgba(22, 21, 19, 0.15);
+	background: var(--sc-cream);
+	cursor: pointer;
+	font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Horizontal accordion — service packages
+   -------------------------------------------------------------------------- */
+.sc-accordion {
+	display: flex;
+	gap: 0.5rem;
+	height: 480px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.sc-accordion-slice {
+	position: relative;
+	flex: 1;
+	border-radius: 1rem;
+	background-size: cover;
+	background-position: center;
+	overflow: hidden;
+	cursor: pointer;
+	transition: flex 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	isolation: isolate;
+}
+
+.sc-accordion-slice::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(0deg, rgba(22, 21, 19, 0.85) 0%, rgba(22, 21, 19, 0.15) 55%);
+	z-index: -1;
+}
+
+.sc-accordion-slice.is-open {
+	flex: 3.2;
+}
+
+.sc-accordion-label {
+	position: absolute;
+	left: 1.25rem;
+	bottom: 1.25rem;
+	color: var(--sc-cream);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.sc-accordion-slice.is-open .sc-accordion-label {
+	display: none;
+}
+
+.sc-accordion-body {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 2rem;
+	color: var(--sc-cream);
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+}
+
+.sc-accordion-slice.is-open .sc-accordion-body {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.sc-accordion-body h3 {
+	margin: 0 0 0.5rem;
+}
+
+.sc-accordion-body p {
+	max-width: 26rem;
+	margin: 0;
+}
+
+@media (max-width: 780px) {
+	.sc-accordion {
+		flex-direction: column;
+		height: auto;
+	}
+	.sc-accordion-slice {
+		height: 90px;
+	}
+	.sc-accordion-slice.is-open {
+		height: 360px;
+	}
+}
+
+/* --------------------------------------------------------------------------
+   Action CTA
+   -------------------------------------------------------------------------- */
+.sc-cta {
+	padding: 0 1.5rem clamp(3rem, 6vw, 5rem);
+}
+
+.sc-cta-card {
+	background: var(--sc-ink);
+	color: var(--sc-cream);
+	border-radius: 2rem;
+	padding: clamp(3.5rem, 8vw, 6rem) 1.5rem;
+	text-align: center;
+}
+
+.sc-cta h2 {
+	font-size: clamp(2rem, 4vw, 3.25rem);
+	margin: 0 0 2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.sc-footer a {
+	color: var(--sc-cream);
+}
+
+/* --------------------------------------------------------------------------
+   Booqable widget frame — we only style the container, never its internals
+   (the widget itself is rendered by Booqable's own hosted script).
+   -------------------------------------------------------------------------- */
+/* align:"wide" on the group block itself handles max-width + centering
+   (via WP's own generated rule) — we only add padding here. */
+.sc-booqable-frame {
+	padding: clamp(2.5rem, 5vw, 4rem) 1.5rem clamp(5rem, 8vw, 7rem);
+}
+
+.sc-booqable-frame h2 {
+	margin-bottom: 1.75rem;
+}
+
+.sc-booqable-frame .booqable-datepicker,
+.sc-booqable-frame .booqable-bar,
+.sc-booqable-frame .booqable-product-list {
+	min-height: 60px;
+	border-radius: 1.25rem;
+}
+
+.sc-booqable-frame .booqable-bar,
+.sc-booqable-frame .booqable-product-list {
+	margin-top: 1.5rem;
+}

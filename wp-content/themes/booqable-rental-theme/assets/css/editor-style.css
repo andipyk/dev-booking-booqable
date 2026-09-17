@@ -1,0 +1,4 @@
+/* Loads the theme's fonts inside the block editor so what you see there
+   matches the front end. theme.json already sets font-family per block;
+   this just makes the @font-face available inside the iframe. */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');

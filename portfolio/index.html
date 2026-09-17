@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Booqable Rental Theme</title>
+<meta name="description" content="Case study: a WordPress block theme and companion plugin that run a rental catalog, cart and checkout on the Booqable API v4, with the access token kept on the server.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0F1E23">
+<link rel="canonical" href="https://andipyk.github.io/dev-booking-booqable/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Booqable Rental Theme">
+<meta property="og:description" content="Booqable rentals without the Booqable widget: a block theme and plugin that talk to the API from the server.">
+<meta property="og:url" content="https://andipyk.github.io/dev-booking-booqable/">
+<meta property="og:image" content="https://andipyk.github.io/dev-booking-booqable/assets/full/02-services.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230F1E23'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='900' text-anchor='middle' fill='%23FF7A3D'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* Page figure: where the access token lives. */
+  .arch text { font-family: var(--font-mono); fill: currentColor; }
+  .arch { color: var(--ink); }
+  .arch .node { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; }
+  .arch .node--api { stroke: var(--accent-mark); }
+  .arch .node--server { stroke: var(--teal); }
+  .arch .t-api { fill: var(--accent-text); }
+  .arch .t-server { fill: var(--teal); }
+  .arch .t-dim { fill: var(--muted); }
+  .arch .edge { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
+  .arch .edge--token { stroke: var(--accent-mark); }
+  .arch .boundary { stroke: var(--line-strong); stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .arch .arrowhead { fill: var(--line-strong); }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha512-oJ8QbaQThQoJZ7oEv+29jfPM6CcP+zUxh3PKJs1vyOhx0UraUrE7PQgeItu3dOuCJyrzWpoYMsVjkkPEBzbUqw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" integrity="sha512-OaIE7ud4P04EhnBuhEcm0wQSceIxbi2pV03oBLS/+F6ampfxsnxcIxOp7H2eF9G7N0kEht0VAzOLG+dTLSo17Q==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <nav class="nav__pill" aria-label="Page">
+    <a class="nav__brand" href="#top">Booqable Rental Theme</a>
+    <span class="nav__links">
+      <a href="#brief">Brief</a>
+      <a href="#build">Build</a>
+      <a href="#evidence">Evidence</a>
+    </span>
+    <a class="nav__cta" href="https://github.com/andipyk/dev-booking-booqable">Source</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="hero__media">
+      <img src="assets/full/02-services.jpg" alt="" width="1568" height="743">
+    </div>
+    <div class="shell">
+      <p class="hero__name">Booqable Rental Theme &middot; case study</p>
+      <h1>Booqable rentals, without the Booqable widget.</h1>
+      <p class="hero__lede">A block theme and companion plugin for a home-staging rental business. The catalog, stock checks and checkout call the Booqable API v4 from the server, so the storefront is plain WordPress and the access token never reaches a browser.</p>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="#build">See how it works <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn--line" href="https://github.com/andipyk/dev-booking-booqable">Source on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="shell">
+      <dl>
+        <div><dt class="label">Status</dt><dd class="ok">Built; API account paused</dd></div>
+        <div><dt class="label">Built</dt><dd>Sept 2026</dd></div>
+        <div><dt class="label">Runtime</dt><dd>WordPress 7.1 &middot; PHP 8.4 &middot; Docker</dd></div>
+        <div><dt class="label">Engagement</dt><dd>Self-initiated</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <section class="section" id="brief">
+    <div class="shell split">
+      <div class="head">
+        <h2>A staging business rents furniture by the date, and its inventory lives in Booqable.</h2>
+      </div>
+      <div class="prose">
+        <p>A real-estate staging company needs a site that looks as considered as the homes it stages, shows what can be rented, and takes bookings online. Its stock, prices and orders are already managed in Booqable.</p>
+        <p>Booqable's own WordPress route is a plugin that drops in shortcodes and a client-side widget script. The site cannot style that widget like the rest of the page, and every booking step runs inside code the site does not control.</p>
+        <p>What finished looks like, stated so it can be checked:</p>
+        <ul class="goals">
+          <li><span>Visitors browse live inventory by category, and a category renamed in Booqable needs no change in WordPress.</span></li>
+          <li><span>A visitor picks dates, adds items and checks out without leaving the site.</span></li>
+          <li><span>The Booqable access token never reaches the browser.</span></li>
+          <li><span>Switching the theme leaves the rental features working.</span></li>
+        </ul>
+        <p class="disclosure">The staging business is fictional and the build is self-initiated. Photos on the demo site are placeholders from picsum.photos, which the screenshots below show as they are.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="head">
+        <h2>The storefront is WordPress; Booqable is only ever called from the server.</h2>
+      </div>
+      <div class="bento">
+        <article class="card card--wide card--night">
+          <p class="label">Integration</p>
+          <h3>Call the API instead of embedding the widget</h3>
+          <p>The official Booqable plugin was removed. A single <code>Client</code> class talks to API v4 with a bearer token and maps each JSON:API response down to the few fields a block needs, so no raw envelope ever reaches a template.</p>
+          <div class="tags"><span>API v4</span><span>JSON:API</span><span>Client.php</span></div>
+        </article>
+        <article class="card">
+          <p class="label">Security</p>
+          <h3>Keep the token on the server</h3>
+          <p>Only the <code>Client</code> class reads the token. The browser sees public <code>booqable-core/v1</code> routes that return filtered data, and the settings screen never shows the saved token again.</p>
+        </article>
+        <article class="card">
+          <p class="label">Structure</p>
+          <h3>Theme renders, plugin works</h3>
+          <p>API client, caches, blocks, cart and checkout live in the plugin. Even the cart button is printed by the plugin, so editing the theme header cannot remove it.</p>
+        </article>
+        <article class="card">
+          <p class="label">Cart</p>
+          <h3>Keep the cart in the browser until checkout</h3>
+          <p>Adding, changing quantities and picking dates write to <code>localStorage</code> with no request. Booqable hears about the order once, at checkout.</p>
+        </article>
+        <article class="card">
+          <p class="label">Payment</p>
+          <h3>Manual payment, because the gateway is not offered</h3>
+          <p>Stripe does not support this Booqable account's country. Checkout reserves the order, shows bank transfer or QRIS instructions, and a cron job cancels orders left unpaid past the hold window.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-label="Stack">
+    <div class="marquee__track">
+      <ul class="marquee__group">
+        <li>WordPress<span>7.1</span></li><li>PHP<span>8.4</span></li><li>Booqable API<span>v4</span></li><li>Block theme</li><li>Gutenberg blocks</li><li>@wordpress/scripts<span>30</span></li><li>REST API</li><li>WP-Cron</li><li>localStorage</li><li>MariaDB<span>11.8</span></li><li>Docker Compose</li>
+      </ul>
+      <ul class="marquee__group" aria-hidden="true">
+        <li>WordPress<span>7.1</span></li><li>PHP<span>8.4</span></li><li>Booqable API<span>v4</span></li><li>Block theme</li><li>Gutenberg blocks</li><li>@wordpress/scripts<span>30</span></li><li>REST API</li><li>WP-Cron</li><li>localStorage</li><li>MariaDB<span>11.8</span></li><li>Docker Compose</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="section" id="build">
+    <div class="shell">
+      <div class="head">
+        <h2>What one rental does, from the first click to a reserved order.</h2>
+        <p>The steps run on every booking. The table beside them lists one decision per layer and what it buys.</p>
+      </div>
+
+      <div class="split">
+        <ol class="flow">
+          <li><div><strong>Fill the cart in the browser</strong><span>Book, quantity and date changes are reads and writes of <code>localStorage</code>. No request leaves the page.</span></div></li>
+          <li><div><strong>Check stock in the background</strong><span>After an item is added or the dates change, <code>GET booqable-core/v1/availability</code> fetches the available count and clamps the quantity. It changes nothing in Booqable.</span></div></li>
+          <li><div><strong>Send the whole cart once</strong><span><code>POST booqable-core/v1/checkout</code> carries name, email, phone, dates and lines in a single request.</span></div></li>
+          <li><div><strong>Create the order and book every line</strong><span>Independent calls go out together: the order and the customer lookup first, then every line through <code>order_fulfillments</code>. Any failure cancels the partial order.</span></div></li>
+          <li><div><strong>Attach the customer and reserve</strong><span>The customer is found by email or created, attached to the order, and the order moves from <code>new</code> to <code>reserved</code>, which is what makes it visible to staff.</span></div></li>
+          <li><div><strong>Pay, or release the stock</strong><span>The confirmation shows the order number, Booqable's total and the payment instructions. Orders still unpaid after the hold window (24 hours by default) are cancelled by WP-Cron.</span></div></li>
+        </ol>
+
+        <div class="table-wrap">
+          <table>
+            <caption>One decision per layer.</caption>
+            <thead><tr><th scope="col">Layer</th><th scope="col">Choice</th><th scope="col">What it buys</th></tr></thead>
+            <tbody>
+              <tr><td>Theme</td><td>Block theme with its own <code>theme.json</code></td><td>No page builder and no parent theme</td></tr>
+              <tr><td>Catalog</td><td>Category Grid and Product Catalog blocks</td><td>Categories follow Booqable with no content edits</td></tr>
+              <tr><td>Data</td><td>One API client, responses mapped to flat arrays</td><td>No raw API payload reaches a block</td></tr>
+              <tr><td>Cache</td><td>15-minute transients, flushed by webhook</td><td>Catalog renders without a live call per page</td></tr>
+              <tr><td>Cart</td><td><code>localStorage</code></td><td>Book and quantity changes with no network wait</td></tr>
+              <tr><td>Checkout</td><td>One REST call, batched API calls</td><td>Four or five round trips, however many lines</td></tr>
+              <tr><td>Payment</td><td>Manual confirmation in Booqable</td><td>No second admin screen for the same task</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <figure class="plate" style="margin-top: clamp(56px, 7vw, 96px)">
+        <div class="plate__frame" data-scale>
+          <button type="button" class="zoom" data-svg="1" aria-label="Enlarge the architecture diagram">
+            <span class="svg-scroll">
+              <svg class="arch" viewBox="0 0 1100 350" role="img" aria-label="The browser keeps the cart and calls only the plugin's public REST routes. On the server, the Client class holds the Booqable token and calls the Booqable API; catalog data is cached for 15 minutes, and a Booqable webhook flushes that cache.">
+                <defs>
+                  <marker id="arch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker>
+                </defs>
+
+                <line class="boundary" x1="258" y1="18" x2="258" y2="336"/>
+                <text class="t-dim" x="272" y="30" font-size="11">server side: the token stays right of this line</text>
+
+                <rect class="node" x="20" y="120" width="200" height="120" rx="12"/>
+                <text x="120" y="148" text-anchor="middle" font-size="13" font-weight="600">Browser</text>
+                <text class="t-dim" x="120" y="172" text-anchor="middle" font-size="11">cart in localStorage</text>
+                <text class="t-dim" x="120" y="190" text-anchor="middle" font-size="11">book, qty, dates:</text>
+                <text class="t-dim" x="120" y="206" text-anchor="middle" font-size="11">no request</text>
+
+                <rect class="node node--server" x="300" y="56" width="230" height="124" rx="12"/>
+                <text class="t-server" x="415" y="82" text-anchor="middle" font-size="13" font-weight="600">booqable-core/v1</text>
+                <text class="t-dim" x="415" y="106" text-anchor="middle" font-size="11">GET collections</text>
+                <text class="t-dim" x="415" y="124" text-anchor="middle" font-size="11">GET availability</text>
+                <text class="t-dim" x="415" y="142" text-anchor="middle" font-size="11">POST checkout</text>
+                <text class="t-dim" x="415" y="162" text-anchor="middle" font-size="10">filtered data only</text>
+
+                <rect class="node node--server" x="300" y="214" width="230" height="96" rx="12"/>
+                <text class="t-server" x="415" y="240" text-anchor="middle" font-size="13" font-weight="600">Transients, 15 min</text>
+                <text class="t-dim" x="415" y="262" text-anchor="middle" font-size="11">collections, product groups,</text>
+                <text class="t-dim" x="415" y="280" text-anchor="middle" font-size="11">company currency</text>
+
+                <rect class="node node--server" x="590" y="120" width="210" height="120" rx="12"/>
+                <text class="t-server" x="695" y="148" text-anchor="middle" font-size="13" font-weight="600">Client.php</text>
+                <text class="t-dim" x="695" y="172" text-anchor="middle" font-size="11">reads the token</text>
+                <text class="t-dim" x="695" y="190" text-anchor="middle" font-size="11">maps JSON:API</text>
+                <text class="t-dim" x="695" y="208" text-anchor="middle" font-size="11">to flat arrays</text>
+
+                <rect class="node node--api" x="860" y="96" width="220" height="168" rx="12"/>
+                <text class="t-api" x="970" y="124" text-anchor="middle" font-size="13" font-weight="600">Booqable API v4</text>
+                <text class="t-dim" x="970" y="150" text-anchor="middle" font-size="11">collections, product groups</text>
+                <text class="t-dim" x="970" y="170" text-anchor="middle" font-size="11">inventory availabilities</text>
+                <text class="t-dim" x="970" y="190" text-anchor="middle" font-size="11">orders, order_fulfillments</text>
+                <text class="t-dim" x="970" y="210" text-anchor="middle" font-size="11">customers, properties</text>
+                <text class="t-dim" x="970" y="230" text-anchor="middle" font-size="11">order_status_transitions</text>
+
+                <path class="edge" d="M220,160 C255,150 270,125 298,118" marker-end="url(#arch-arrow)"/>
+                <text class="t-dim" x="24" y="262" font-size="10">stock check, then</text>
+                <text class="t-dim" x="24" y="278" font-size="10">one checkout</text>
+                <path class="edge" d="M530,118 C555,120 565,150 588,160" marker-end="url(#arch-arrow)"/>
+                <path class="edge" d="M588,205 C560,215 555,250 532,258" marker-end="url(#arch-arrow)"/>
+                <text class="t-dim" x="556" y="284" font-size="10">cached reads</text>
+                <line class="edge edge--token" x1="800" y1="180" x2="858" y2="180" marker-end="url(#arch-arrow)"/>
+                <text class="t-api" x="806" y="170" font-size="10">Bearer</text>
+                <path class="edge" d="M970,264 C970,330 700,336 540,300" marker-end="url(#arch-arrow)"/>
+                <text class="t-dim" x="700" y="330" font-size="10">webhook flushes the cache</text>
+              </svg>
+            </span>
+            <span class="zoom__hint" aria-hidden="true">Enlarge</span>
+          </button>
+        </div>
+        <figcaption><strong>Where the token lives</strong><span class="mono">drawn from includes/ and the REST routes</span></figcaption>
+      </figure>
+
+      <div class="code-pair" style="margin-top: clamp(56px, 7vw, 96px)">
+        <div>
+          <p class="code-caption">booqable-rental-theme-core/includes/class-client.php</p>
+          <pre class="codeblock"><span class="cm">// Client::get(). Only this class ever reads the token.</span>
+$slug = $this-&gt;<span class="fn">get_company_slug</span>();
+$url  = <span class="fn">sprintf</span>( <span class="st">'https://%s.booqable.com/api/4/%s'</span>, $slug, <span class="fn">ltrim</span>( $path, <span class="st">'/'</span> ) );
+
+$response = <span class="fn">wp_remote_get</span>( $url, <span class="fn">array</span>(
+    <span class="st">'timeout'</span> =&gt; 10,
+    <span class="st">'headers'</span> =&gt; <span class="fn">array</span>(
+        <span class="st">'Authorization'</span> =&gt; <span class="st">'Bearer '</span> . $this-&gt;<span class="fn">get_access_token</span>(),
+        <span class="st">'Accept'</span>        =&gt; <span class="st">'application/json'</span>,
+    ),
+) );</pre>
+        </div>
+        <div>
+          <p class="code-caption">booqable-rental-theme-core/includes/class-checkout.php</p>
+          <pre class="codeblock"><span class="cm">// Every line only depends on the order, so they are booked together.</span>
+$phase2 = $this-&gt;client-&gt;<span class="fn">request_multiple</span>( $phase2_calls );
+
+<span class="fn">foreach</span> ( $lines <span class="fn">as</span> $index =&gt; $line ) {
+    $booked = $this-&gt;client-&gt;<span class="fn">extract_line</span>( $phase2[ <span class="st">'line_'</span> . $index ] );
+    <span class="fn">if</span> ( <span class="fn">is_wp_error</span>( $booked ) ) {
+        <span class="cm">// never leave a partial, customer-less order behind</span>
+        $this-&gt;client-&gt;<span class="fn">cancel_order</span>( $order_id, <span class="st">'new'</span> );
+        <span class="fn">return</span> $booked;
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="evidence">
+    <div class="shell">
+      <div class="head">
+        <h2>The theme today, and what the build log recorded.</h2>
+        <p>The screenshots were taken on 17 September 2026 from the current stack. The catalog, cart and checkout were verified against the live API on 14 September; those results come from the build log, because the Booqable account now needs confirming before the API answers again.</p>
+      </div>
+
+      <div class="carousel" data-scale aria-roledescription="carousel" aria-label="Screenshots">
+        <div class="carousel__track" tabindex="0">
+          <figure class="plate slide" aria-roledescription="slide" aria-label="1 of 4">
+            <figcaption>
+              <p class="slide__claim">A full-site block theme with its own design system, patterns and templates. The hero photo is a placeholder.</p>
+              <p class="slide__source label">Home &middot; 1568 px</p>
+            </figcaption>
+            <div class="plate__frame">
+              <button type="button" class="zoom" data-full="assets/full/01-home.jpg" aria-label="Enlarge the home page screenshot"><img src="assets/01-home.jpg" alt="The home page: a floating navigation bar, a large headline reading 'Staging that sells the home before it's even listed', two buttons, and a placeholder photo of strawberries behind the text." width="1000" height="474" loading="lazy"><span class="zoom__hint" aria-hidden="true">Enlarge</span></button>
+            </div>
+          </figure>
+          <figure class="plate slide" aria-roledescription="slide" aria-label="2 of 4">
+            <figcaption>
+              <p class="slide__claim">The services page is assembled from the theme's own block patterns.</p>
+              <p class="slide__source label">Services &middot; 1568 px</p>
+            </figcaption>
+            <div class="plate__frame">
+              <button type="button" class="zoom" data-full="assets/full/02-services.jpg" aria-label="Enlarge the services page screenshot"><img src="assets/02-services.jpg" alt="The services page: a headline reading 'Services built around your listing timeline' over a photo of succulents, followed by a Staging packages section." width="1000" height="474" loading="lazy"><span class="zoom__hint" aria-hidden="true">Enlarge</span></button>
+            </div>
+          </figure>
+          <figure class="plate slide" aria-roledescription="slide" aria-label="3 of 4">
+            <figcaption>
+              <p class="slide__claim">The cart button, bottom right, is printed by the plugin, so it survives any header change.</p>
+              <p class="slide__source label">About &middot; 1568 px</p>
+            </figcaption>
+            <div class="plate__frame">
+              <button type="button" class="zoom" data-full="assets/full/03-about.jpg" aria-label="Enlarge the about page screenshot"><img src="assets/03-about.jpg" alt="The about page: a headline reading 'Staging, run like a real inventory business', a How we work section, and the floating cart button in the bottom-right corner." width="1000" height="474" loading="lazy"><span class="zoom__hint" aria-hidden="true">Enlarge</span></button>
+            </div>
+          </figure>
+          <figure class="plate slide" aria-roledescription="slide" aria-label="4 of 4">
+            <figcaption>
+              <p class="slide__claim">At 390 px the navigation collapses and every section stacks to one column.</p>
+              <p class="slide__source label">Home, services, about &middot; 390 px</p>
+            </figcaption>
+            <div class="plate__frame">
+              <button type="button" class="zoom" data-full="assets/full/04-mobile.jpg" aria-label="Enlarge the phone-width screenshots"><img src="assets/04-mobile.jpg" alt="Three phone-width screens side by side: the home, services and about pages, each with a collapsed menu and the floating cart button." width="1000" height="474" loading="lazy"><span class="zoom__hint" aria-hidden="true">Enlarge</span></button>
+            </div>
+          </figure>
+        </div>
+        <div class="carousel__bar">
+          <div class="thumbs">
+            <button type="button" aria-label="Show slide 1: home"><img src="assets/01-home.jpg" alt="" width="1000" height="474" loading="lazy"></button>
+            <button type="button" aria-label="Show slide 2: services"><img src="assets/02-services.jpg" alt="" width="1000" height="474" loading="lazy"></button>
+            <button type="button" aria-label="Show slide 3: about"><img src="assets/03-about.jpg" alt="" width="1000" height="474" loading="lazy"></button>
+            <button type="button" aria-label="Show slide 4: phone width"><img src="assets/04-mobile.jpg" alt="" width="1000" height="474" loading="lazy"></button>
+          </div>
+          <div class="carousel__ctrl">
+            <button type="button" class="round" data-dir="-1" aria-label="Previous slide">&larr;</button>
+            <span class="carousel__count" aria-live="polite"></span>
+            <button type="button" class="round" data-dir="1" aria-label="Next slide">&rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="split" style="margin-top: clamp(64px, 8vw, 112px)">
+        <div class="prose">
+          <p class="label">Recorded in the build log, 14 Sept 2026</p>
+          <p style="margin-top: 14px">Each of these was checked with a browser session and a server-side read of the result in Booqable. None of them could be re-run on 17 September: every API call now returns 401 with "You need to confirm your account", including the same request sent from outside Docker.</p>
+        </div>
+        <ul class="checks">
+          <li><span>Catalog render, product groups call without a cache, then with one</span><span class="result">+800 &rarr; 50-90 ms</span></li>
+          <li><span>Wait before a Book click or quantity change shows in the cart (the stock check follows in the background)</span><span class="result">none</span></li>
+          <li><span>Estimated cart total against Booqable's total, 3 &times; Rp50,00</span><span class="result">equal</span></li>
+          <li><span>Order status after a full browser checkout, customer attached</span><span class="result">reserved</span></li>
+          <li><span>Stock after cancelling an unpaid reserved order</span><span class="result">released</span></li>
+        </ul>
+      </div>
+
+      <ul class="checks" style="margin-top: clamp(40px, 5vw, 64px)">
+        <li><span>Public pages returning 200 on the current stack, 17 Sept</span><span class="result">6 / 6</span></li>
+        <li><span><code>booqable-core/v1</code> routes registered, 17 Sept</span><span class="result">4</span></li>
+        <li><span>Booqable API response, 17 Sept</span><span class="result">401</span></li>
+        <li><span>Wait per cart click while the cart was still a live Booqable order</span><span class="result">1-5 s</span></li>
+        <li><span>Batched booking for a cart with two or more lines, checked against the live API</span><span class="result">not yet</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="cta">
+        <h2>Want to see a rental go through?</h2>
+        <p>Once the Booqable account is confirmed I can run a booking end to end. The plugin, the theme and the build log are ready to walk through now, and the source is public.</p>
+        <div class="hero__actions">
+          <a class="btn btn--solid" href="mailto:andisyafrianda@gmail.com">andisyafrianda@gmail.com</a>
+          <a class="btn btn--line" href="https://github.com/andipyk/dev-booking-booqable">Source on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="shell footer">
+  <div>
+    <p class="footer__name">Andi Syafrianda</p>
+    <p class="label">WordPress &middot; automation</p>
+  </div>
+  <div class="footer__links">
+    <a href="#brief">Brief</a>
+    <a href="#build">Build</a>
+    <a href="#evidence">Evidence</a>
+    <a href="https://github.com/andipyk/dev-booking-booqable">GitHub</a>
+  </div>
+  <p class="footer__fine">The staging business is fictional and this build is self-initiated; it is not client work. Photos on the demo site are placeholders.</p>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged view">
+  <div class="lightbox__body" id="lightbox-body"></div>
+  <div class="lightbox__bar">
+    <span id="lightbox-cap"></span>
+    <button type="button" class="lightbox__close" id="lightbox-close" autofocus>Close</button>
+  </div>
+</dialog>
+</body>
+</html>

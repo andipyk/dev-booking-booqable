@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "booqable-core/category-grid",
+  "title": "Booqable Category Grid",
+  "category": "widgets",
+  "icon": "grid-view",
+  "description": "A gapless bento grid of your live Booqable collections — pulled from your account and cached, no hardcoded categories.",
+  "keywords": [
+    "booqable",
+    "category",
+    "collection",
+    "rental"
+  ],
+  "textdomain": "booqable-rental-core",
+  "attributes": {
+    "columns": {
+      "type": "number",
+      "default": 6
+    },
+    "limit": {
+      "type": "number",
+      "default": 6
+    },
+    "linkBase": {
+      "type": "string",
+      "default": "/inventory/"
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

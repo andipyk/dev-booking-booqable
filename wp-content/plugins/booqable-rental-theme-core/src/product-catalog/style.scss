@@ -1,0 +1,75 @@
+.wp-block-booqable-core-product-catalog.sc-catalog {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.5rem;
+
+	.sc-catalog-notice {
+		grid-column: 1 / -1;
+		padding: 1.5rem;
+		border: 1px dashed currentColor;
+		border-radius: 1rem;
+		margin: 0;
+	}
+
+	.sc-product-card {
+		display: flex;
+		flex-direction: column;
+		border-radius: 1.25rem;
+		overflow: hidden;
+		background: #fbfaf7;
+		border: 1px solid rgba(22, 21, 19, 0.08);
+	}
+
+	.sc-product-media {
+		aspect-ratio: 4 / 3;
+		background-color: #e9e2d4;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.sc-product-body {
+		padding: 1.1rem 1.25rem 1.4rem;
+	}
+
+	.sc-product-name {
+		margin: 0 0 0.35rem;
+		font-size: 1.1rem;
+	}
+
+	.sc-product-price {
+		margin: 0;
+		font-weight: 600;
+		color: #c08552;
+
+		span {
+			font-weight: 400;
+			color: rgba(22, 21, 19, 0.55);
+		}
+	}
+
+	.sc-product-book {
+		margin-top: 0.75rem;
+		width: 100%;
+		padding: 0.6rem 1rem;
+		border-radius: 999px;
+		border: none;
+		background: #161513;
+		color: #fbfaf7;
+		font-weight: 600;
+		cursor: pointer;
+
+		&:disabled {
+			background: rgba(22, 21, 19, 0.12);
+			color: rgba(22, 21, 19, 0.45);
+			cursor: not-allowed;
+		}
+	}
+
+	@media (max-width: 980px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (max-width: 560px) {
+		grid-template-columns: 1fr;
+	}
+}

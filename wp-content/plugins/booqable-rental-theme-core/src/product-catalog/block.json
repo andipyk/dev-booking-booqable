@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "booqable-core/product-catalog",
+	"title": "Booqable Product Catalog",
+	"category": "widgets",
+	"icon": "grid-view",
+	"description": "A grid of your live Booqable products — pulled straight from the Booqable API (no client-side widget, no shortcode).",
+	"keywords": [ "booqable", "products", "catalog", "rental" ],
+	"textdomain": "booqable-rental-core",
+	"attributes": {
+		"collectionId": { "type": "string", "default": "" },
+		"limit": { "type": "number", "default": 12 }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}
